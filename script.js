@@ -51,7 +51,9 @@ function makeGrid() {
     for (let i = 0; i < sudoku.length; i++) {
         const cell = sudoku[i];
 
-
+        let availableNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let testedNumbers;
+        console.log('--- NEW CELL ---')
         for (let j = 0; j < cell.length; j++) {
             const number = cell[j];
             
@@ -59,24 +61,42 @@ function makeGrid() {
             let countERRORS = 0;
 
             
-
+            testedNumbers = availableNumbers;
             while(hasConflict) {
-                if(countERRORS > 100) throw new Error('INFINITE LOOP !!!');
+                if(countERRORS > 300) throw new Error('INFINITE LOOP !!!');
 
-                const randomNumber = Math.floor(Math.random() * 9) + 1;
+                //const randomNumber = Math.floor(Math.random() * 9) + 1;
+                const randomNumber = testedNumbers[Math.floor(Math.random() * testedNumbers.length)];
                 const gridPos = cellPosToGridPos(i, j);
 
-                console.log(getCell(i), gridPos, digitDoneCount)
                 countERRORS++;
 
 
 
-                if(getCell(j).includes(randomNumber)) continue;
-                if(getRow(gridPos[0]).includes(randomNumber)) continue;
-                if(getColumn(gridPos[1]).includes(randomNumber)) continue;
+                // if(getCell(i).includes(randomNumber)) continue;
+                // if(getRow(gridPos[0]).includes(randomNumber)) continue;
+                // if(getColumn(gridPos[1]).includes(randomNumber)) continue;
 
-                sudoku[i][j] = randomNumber;
-                hasConflict = false;
+                if(!getCell(i).includes(randomNumber) &&
+                !getRow(gridPos[0]).includes(randomNumber) &&
+                !getColumn(gridPos[1]).includes(randomNumber)) {
+
+                    sudoku[i][j] = randomNumber;
+                    setNumberInCell(`${cellFormat}${i}-${j}`, randomNumber);
+
+                    hasConflict = false;
+                    availableNumbers = availableNumbers.filter(number => number !== randomNumber);
+                } else {
+                    testedNumbers = testedNumbers.filter(number => number !== randomNumber);
+                }
+
+                console.log(`
+cell: ${getCell(i)}
+row: ${getRow(gridPos[0])}
+column: ${getColumn(gridPos[1])}
+
+availableNumbers: ${availableNumbers}, testedNumbers: ${testedNumbers}
+                    `)
             }
             digitDoneCount++;
         }
