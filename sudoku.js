@@ -100,7 +100,7 @@ function convertToCell(flatArray) {
 let sudokuGrid = convertToCell(createSudokuGrid());
 let displayedSudokuGrid = JSON.parse(JSON.stringify(sudokuGrid));
 
-removeNumbers(displayedSudokuGrid, 2);
+removeNumbers(displayedSudokuGrid, 45);
 putSudokuInGrid(displayedSudokuGrid);
 
 
