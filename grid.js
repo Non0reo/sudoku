@@ -34,19 +34,26 @@ function createGridElement() {
 function setNumberInCell(cell, number, isGiven = false) {
   const cellElement = document.getElementById(cell);
   //create a span element to hold the number only if it doesn't exist
-  if (number == 0) number = '';
+  
   if (!cellElement.querySelector('span')) {
-      const span = document.createElement('span');
-      span.textContent = number;
-      cellElement.appendChild(span);
+      if (parseInt(number) != 0) {
+        const span = document.createElement('span');
+        span.textContent = number;
+        cellElement.appendChild(span);
+      }
   } else {
-      cellElement.querySelector('span').textContent = number;
+      if (parseInt(number) != 0) {
+        cellElement.querySelector('span').textContent = number;
+      } else {  
+        cellElement.querySelector('span').remove();
+      }
   }
   
   if (isGiven) {
     cellElement.classList.add('given');
   } else {
-    displayedSudokuGrid[parseInt(cell[0])][parseInt(cell[2])] = parseInt(number);
+    if (parseInt(number) == 0) number = '';
+    displayedSudokuGrid[parseInt(cell[0])][parseInt(cell[2])] = number;
   }
 }
 
