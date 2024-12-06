@@ -104,16 +104,39 @@ removeNumbers(displayedSudokuGrid, 45);
 putSudokuInGrid(displayedSudokuGrid);
 
 
-/* function isSudokuDone(grid) {
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[i].length; j++) {
-            if (grid[i][j] === '') {
-                return false;
+function verifySudoku(grid1, grid2) {
+    let errorCells = [];
+
+    for (let i = 0; i < grid1.length; i++) {
+        for (let j = 0; j < grid1[i].length; j++) {
+            if (grid1[i][j] !== grid2[i][j] && grid1[i][j] !== '') {
+                errorCells.push([i, j]);
             }
         }
     }
-    return true;
-} */
+
+    //highlight error cells
+    const grid = document.getElementById('grid');
+    const cells = grid.querySelectorAll('.cell');
+
+    cells.forEach(cell => {
+        cell.classList.remove('error');
+    });
+
+    errorCells.forEach(cell => {
+        const cellID = `${cellFormat}${cell[0]}-${cell[1]}`;
+        const cellDOM = document.getElementById(cellID);
+        cellDOM.classList.add('error');
+    });
+
+    setTimeout(() => {
+        errorCells.forEach(cell => {
+            const cellID = `${cellFormat}${cell[0]}-${cell[1]}`;
+            const cellDOM = document.getElementById(cellID);
+            cellDOM.classList.remove('error');
+        });
+    }, 1000);
+}
 
 function arraysEqual(arr1, arr2) {
     if (arr1.length !== arr2.length) return false;

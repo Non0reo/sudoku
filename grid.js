@@ -17,14 +17,13 @@ function createGridElement() {
 
       cell.addEventListener('click', function() {
         const selectedCell = document.querySelector('.selected');
-        if (selectedCell) {
-          selectedCell.classList.remove('selected');
-        }
+        if (selectedCell) selectedCell.classList.remove('selected');
+
         this.classList.add('selected');
 
-        if(this.classList.contains('given')) {
+        //if(this.classList.contains('given')) {
           higlightSimilarNumbers(`${cellFormat}${i}-${j}`);
-        }
+        //}
       });
 
       gridCell.appendChild(cell);
@@ -62,6 +61,7 @@ function putSudokuInGrid(sudoku) {
 
 function higlightSimilarNumbers(cellID) {
   const cell = document.getElementById(cellID);
+  if(!cell.querySelector('span')) return;
   const number = cell.querySelector('span').textContent;
   const grid = document.getElementById('grid');
   const cells = grid.querySelectorAll('.cell');
@@ -80,15 +80,21 @@ createGridElement();
 //detect if the user is typing a number
 document.addEventListener('keydown', function(e) {
   const selectedCell = document.querySelector('.selected');
+
   if (selectedCell && !selectedCell.classList.contains('given')) {
+    const selCellId = selectedCell.id;
     //use e.code
     if (e.code.startsWith('Digit')) {
-      setNumberInCell(selectedCell.id, e.code.split('Digit')[1]);
+      setNumberInCell(selCellId, e.code.split('Digit')[1]);
+      higlightSimilarNumbers(selCellId);
     } else if (e.code === 'Backspace') {
-      setNumberInCell(selectedCell.id, 0);
+      setNumberInCell(selCellId, 0);
+      higlightSimilarNumbers(selCellId);
     } else if (e.key >= 0 && e.key <= 9) { 
-      setNumberInCell(selectedCell.id, e.key);
+      setNumberInCell(selCellId, e.key);
+      higlightSimilarNumbers(selCellId);
     }
+    
 
     if(arraysEqual(displayedSudokuGrid, sudokuGrid)) {
       alert('Congratulations! You have solved the puzzle!');
@@ -111,3 +117,7 @@ document.addEventListener('click', function(e) {
 
 
 
+
+document.getElementById('verify').onclick = function() {
+  verifySudoku(displayedSudokuGrid, sudokuGrid);
+}

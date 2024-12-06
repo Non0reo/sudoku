@@ -7,6 +7,7 @@ body {
     display: flex;
     height: 100vh;
     margin: 0;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     transition: all 0.3s ease-out;
@@ -32,7 +33,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: calc(var(--gridSize) / 8);
-    background-color: #2c2929;
+    background-color: #393836;
     color: #fff;
     border-radius: 20%;
     cursor: pointer;
@@ -49,14 +50,14 @@ body {
 }
 
 .given {
-    background-color: #393836;
+    background-color: #2a2727;
     color: #fff;
     cursor: default;
     border-radius: 30%;
 }
 
 .highlight {
-    background-color: #ad8787;
+    background-color: #b6a45d;
     color: #fff;
     cursor: pointer;
 }
@@ -65,11 +66,30 @@ body {
     border-radius: 100%;
 }
 
+.error {
+    background-color: #c44141;
+    color: #fff;
+    cursor: default;
+}
+
+
+button {
+    background-color: #393836;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+}
+
 
 @media screen and (orientation: portrait) {
     body {
         margin-top: calc(var(--gridSize) / 2);
-        align-items: flex-start;
+        justify-content: flex-start;
         transition: all 0.3s ease-out;
     }
     
